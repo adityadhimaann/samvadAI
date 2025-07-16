@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useChatStore } from '@/store/chat';
-import { FiEdit3, FiSearch, FiSettings, FiHelpCircle, FiTrash2, FiMoreHorizontal } from 'react-icons/fi';
-import { BiLibrary } from 'react-icons/bi';
+import { FiEdit3, FiSearch, FiSettings, FiHelpCircle, FiTrash2 } from 'react-icons/fi';
+// Removed unused BiLibrary import
 import { SamvadIcon } from '@/components/ui/samvad-icon';
 
 interface SidebarProps {
@@ -45,12 +45,7 @@ export function Sidebar({ isOpen, onClose, className }: SidebarProps) {
     }
   };
 
-  const handleSearch = () => {
-    setShowSearch(!showSearch);
-    if (!showSearch) {
-      setSearchQuery('');
-    }
-  };
+  // Removed unused handleSearch function
 
   const handleSettings = () => {
     setShowSettings(!showSettings);
@@ -64,16 +59,9 @@ export function Sidebar({ isOpen, onClose, className }: SidebarProps) {
     alert('Help & FAQ functionality - implement as needed');
   };
 
-  const handleLibrary = () => {
-    setShowLibrary(!showLibrary);
-    // You can implement library functionality here
-    alert('Library functionality - implement as needed');
-  };
+  // Removed unused handleLibrary function
 
-  const handleUpgrade = () => {
-    // You can implement upgrade functionality here
-    alert('Upgrade plan functionality - implement as needed');
-  };
+  // Removed unused handleUpgrade function
 
   const handleClearAllChats = () => {
     if (window.confirm('Are you sure you want to clear all conversations? This action cannot be undone.')) {

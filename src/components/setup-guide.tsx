@@ -34,7 +34,7 @@ export function SetupGuide({ onClose }: SetupGuideProps) {
       </div>
       
       <p className="text-sm text-muted-foreground">
-        To start chatting with the AI, you need to configure your Google Gemini API key. It's free and takes just 2 minutes!
+        To start chatting with the AI, you need to configure your Google Gemini API key. It&apos;s free and takes just 2 minutes!
       </p>
 
       <div className="space-y-4">

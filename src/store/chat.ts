@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { subscribeWithSelector, persist, createJSONStorage } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { ChatState, Conversation, Message, ChatConfig } from '@/types/chat';
 import { generateId } from '@/lib/utils';
 import { chatDefaults } from '@/lib/config';
