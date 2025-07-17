@@ -24,15 +24,16 @@ export default function Home() {
   }
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen bg-white dark:bg-slate-900">
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        className="border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
       />
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col lg:ml-0">
+      <div className="flex-1 flex flex-col lg:ml-0 bg-white dark:bg-slate-900">
         {/* Header */}
         <Header 
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
@@ -40,9 +41,11 @@ export default function Home() {
         />
 
         {/* Chat interface */}
-        <div className="flex-1 overflow-hidden">
-          <ChatInterface />
-        </div>
+        <main className="flex-1 flex flex-col items-center justify-center p-2 sm:p-6">
+          <div className="w-full max-w-3xl flex-1 flex flex-col rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900">
+            <ChatInterface />
+          </div>
+        </main>
       </div>
 
       {/* Auth Modal */}
