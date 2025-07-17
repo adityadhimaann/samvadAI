@@ -6,10 +6,11 @@ import { useChatStore } from '@/store/chat';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
+  onShowAuth?: () => void;
   className?: string;
 }
 
-export function Header({ onToggleSidebar, className }: HeaderProps) {
+export function Header({ onToggleSidebar, onShowAuth, className }: HeaderProps) {
   const { theme, setTheme, createConversation, setCurrentConversation } = useChatStore();
   const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -53,6 +54,15 @@ export function Header({ onToggleSidebar, className }: HeaderProps) {
                 <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
             </button>
+            {/* Add Auth button to trigger modal if onShowAuth is provided */}
+            {onShowAuth && (
+              <button
+                onClick={onShowAuth}
+                className="ml-2 px-2 py-1 bg-primary text-white rounded hover:bg-primary/80 transition-colors"
+              >
+                Login / Signup
+              </button>
+            )}
 
             {/* User dropdown menu - positioned directly below the dropdown arrow */}
             {showUserMenu && (
