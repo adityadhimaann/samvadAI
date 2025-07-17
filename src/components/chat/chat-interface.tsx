@@ -194,7 +194,7 @@ This helps prevent overloading the system.`;
   };
 
   return (
-    <div className={cn("flex h-full flex-col relative", className)}>
+    <div className={cn("flex h-full flex-col relative min-w-0", className)}>
       {/* Error display */}
       {error && (
         <Alert variant="destructive" className="mx-4 mt-4">
@@ -204,7 +204,7 @@ This helps prevent overloading the system.`;
       )}
 
       {/* Chat content */}
-      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden">
         {hasMessages ? (
           <MessageList className="flex-1 min-h-0" />
         ) : (

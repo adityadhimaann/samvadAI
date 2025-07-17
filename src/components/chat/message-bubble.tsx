@@ -36,12 +36,14 @@ export function MessageBubble({ message, className }: MessageBubbleProps) {
             'bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900',
             'border-slate-200 dark:border-slate-700',
             'prose prose-sm dark:prose-invert max-w-none',
+            'prose-pre:bg-slate-900 prose-pre:text-white prose-pre:rounded-lg prose-pre:p-4 prose-code:bg-slate-100 prose-code:rounded prose-code:px-1.5 prose-code:py-1 prose-code:text-pink-600 dark:prose-code:bg-slate-800 dark:prose-code:text-pink-400',
             'hover:shadow-md transition-all duration-200',
             'break-words', // Prevent text overflow
             isError && 'bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 border-red-200 dark:border-red-800 text-destructive',
             isSending && 'bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 text-muted-foreground animate-pulse'
           )}>
-            {message.content}
+            {/* Render code blocks and markdown as HTML */}
+            <span dangerouslySetInnerHTML={{ __html: message.content.replace(/```([\s\S]*?)```/g, (match, code) => `<pre><code>${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`) }} />
           </div>
           <div className="text-xs text-muted-foreground mt-1 opacity-70 flex items-center gap-1">
             <span className="w-1 h-1 bg-muted-foreground rounded-full"></span>

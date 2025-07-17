@@ -24,7 +24,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex h-screen bg-white dark:bg-slate-900">
+    <div className="flex flex-row h-screen bg-white dark:bg-slate-900">
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -32,8 +32,8 @@ export default function Home() {
         className="border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
       />
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col lg:ml-0 bg-white dark:bg-slate-900">
+      {/* Chat and main content */}
+      <div className="flex flex-1 flex-col bg-white dark:bg-slate-900 min-w-0">
         {/* Header */}
         <Header 
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
@@ -41,8 +41,8 @@ export default function Home() {
         />
 
         {/* Chat interface */}
-        <main className="flex-1 flex flex-col items-center justify-center p-2 sm:p-6">
-          <div className="w-full max-w-3xl flex-1 flex flex-col rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900">
+        <main className="flex-1 flex flex-col min-w-0">
+          <div className="flex-1 min-h-0 min-w-0">
             <ChatInterface />
           </div>
         </main>

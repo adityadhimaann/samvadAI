@@ -25,7 +25,7 @@ export function Header({ onToggleSidebar, onShowAuth, className }: HeaderProps) 
 
   return (
     <header className={cn(
-      "flex items-center justify-between px-4 py-3 border-b bg-background/95 backdrop-blur-sm relative",
+      "flex items-center justify-between px-4 py-3 border-b bg-white dark:bg-slate-900 shadow-sm sticky top-0 z-30",
       className
     )}>
       <div className="flex items-center gap-3">
