@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { FiMenu, FiEdit, FiUser, FiMoon, FiSun } from 'react-icons/fi';
 import { HiSparkles } from 'react-icons/hi2';
 import { useChatStore } from '@/store/chat';
+import { DropdownPortal } from '@/components/ui/dropdown-portal';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -13,25 +14,42 @@ interface HeaderProps {
 export function Header({ onToggleSidebar, onShowAuth, className }: HeaderProps) {
   const { theme, setTheme, createConversation, setCurrentConversation } = useChatStore();
   const [showUserMenu, setShowUserMenu] = useState(false);
-
+  const logoMenuRef = useRef<HTMLButtonElement>(null);
+  const userMenuRef = useRef<HTMLButtonElement>(null);
+  const [menuPosition, setMenuPosition] = useState<DOMRect | null>(null);
+  const [menuSource, setMenuSource] = useState<'logo' | 'user'>('logo');
+  
   const handleNewChat = () => {
     const newId = createConversation('New Chat');
     setCurrentConversation(newId);
   };
 
+  const handleLogoMenu = () => {
+    if (logoMenuRef.current) {
+      setMenuPosition(logoMenuRef.current.getBoundingClientRect());
+      setMenuSource('logo');
+    }
+    setShowUserMenu(!showUserMenu);
+  };
+  
   const handleUserMenu = () => {
+    if (userMenuRef.current) {
+      setMenuPosition(userMenuRef.current.getBoundingClientRect());
+      setMenuSource('user');
+    }
     setShowUserMenu(!showUserMenu);
   };
 
   return (
     <header className={cn(
-      "flex items-center justify-between px-4 py-3 border-b bg-white dark:bg-slate-900 shadow-sm sticky top-0 z-30",
+      "flex items-center justify-between px-4 py-3 border-b bg-white dark:bg-slate-900 shadow-sm sticky top-0",
       className
-    )}>
+    )}
+    style={{ position: 'relative', zIndex: 500 }}>
       <div className="flex items-center gap-3">
         <button
           onClick={onToggleSidebar}
-          className="p-2 hover:bg-secondary rounded-lg transition-colors lg:hidden"
+          className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors lg:hidden"
           aria-label="Toggle sidebar"
           title="Toggle sidebar"
         >
@@ -46,7 +64,8 @@ export function Header({ onToggleSidebar, onShowAuth, className }: HeaderProps) 
           <div className="flex items-center gap-2 relative">
             <span className="font-semibold text-lg">SamvadGPT</span>
             <button
-              onClick={handleUserMenu}
+              ref={logoMenuRef}
+              onClick={handleLogoMenu}
               className="p-1 hover:bg-secondary rounded transition-colors"
               title="User menu"
             >
@@ -62,61 +81,6 @@ export function Header({ onToggleSidebar, onShowAuth, className }: HeaderProps) 
               >
                 Login / Signup
               </button>
-            )}
-
-            {/* User dropdown menu - positioned directly below the dropdown arrow */}
-            {showUserMenu && (
-              <div className="absolute top-full left-0 mt-2 w-48 bg-background border border-border rounded-lg shadow-lg z-50">
-                <div className="p-2 space-y-1">
-                  <button 
-                    onClick={() => {
-                      setTheme(theme === 'dark' ? 'light' : 'dark');
-                      setShowUserMenu(false);
-                    }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-secondary transition-colors"
-                  >
-                    {theme === 'dark' ? <FiSun className="h-4 w-4" /> : <FiMoon className="h-4 w-4" />}
-                    {theme === 'dark' ? 'Light mode' : 'Dark mode'}
-                  </button>
-                  
-                  <button 
-                    onClick={() => {
-                      handleNewChat();
-                      setShowUserMenu(false);
-                    }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-secondary transition-colors"
-                  >
-                    <FiEdit className="h-4 w-4" />
-                    New chat
-                  </button>
-                  
-                  <div className="border-t border-border my-1" />
-                  
-                  <button 
-                    onClick={() => {
-                      setShowUserMenu(false);
-                      alert('Profile settings - implement as needed');
-                    }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-secondary transition-colors"
-                  >
-                    <FiUser className="h-4 w-4" />
-                    Profile
-                  </button>
-                  
-                  <button 
-                    onClick={() => {
-                      setShowUserMenu(false);
-                      alert('Sign out - implement authentication');
-                    }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-secondary transition-colors text-destructive"
-                  >
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                    Sign out
-                  </button>
-                </div>
-              </div>
             )}
           </div>
         </div>
@@ -148,6 +112,7 @@ export function Header({ onToggleSidebar, onShowAuth, className }: HeaderProps) 
 
         {/* User menu button */}
         <button 
+          ref={userMenuRef}
           onClick={handleUserMenu}
           className="p-2 hover:bg-secondary rounded-lg transition-colors"
           title="User options"
@@ -156,13 +121,65 @@ export function Header({ onToggleSidebar, onShowAuth, className }: HeaderProps) 
         </button>
       </div>
 
-      {/* Close menu when clicking outside */}
-      {showUserMenu && (
-        <div 
-          className="fixed inset-0 z-40" 
-          onClick={() => setShowUserMenu(false)}
-        />
-      )}
+      {/* User dropdown menu using portal to avoid z-index issues */}
+      <DropdownPortal 
+        isOpen={showUserMenu} 
+        targetRect={menuPosition}
+        onClose={() => setShowUserMenu(false)}
+        alignment={menuSource === 'logo' ? 'left' : 'right'}
+      >
+        <div className="w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-lg user-dropdown dropdown-menu">
+          <div className="p-2 space-y-1">
+            <button 
+              onClick={() => {
+                setTheme(theme === 'dark' ? 'light' : 'dark');
+                setShowUserMenu(false);
+              }}
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-secondary transition-colors"
+            >
+              {theme === 'dark' ? <FiSun className="h-4 w-4" /> : <FiMoon className="h-4 w-4" />}
+              {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+            </button>
+            
+            <button 
+              onClick={() => {
+                handleNewChat();
+                setShowUserMenu(false);
+              }}
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-secondary transition-colors"
+            >
+              <FiEdit className="h-4 w-4" />
+              New chat
+            </button>
+            
+            <div className="border-t border-border my-1" />
+            
+            <button 
+              onClick={() => {
+                setShowUserMenu(false);
+                alert('Profile settings - implement as needed');
+              }}
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-secondary transition-colors"
+            >
+              <FiUser className="h-4 w-4" />
+              Profile
+            </button>
+            
+            <button 
+              onClick={() => {
+                setShowUserMenu(false);
+                alert('Sign out - implement authentication');
+              }}
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-secondary transition-colors text-destructive"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              Sign out
+            </button>
+          </div>
+        </div>
+      </DropdownPortal>
     </header>
   );
 }
