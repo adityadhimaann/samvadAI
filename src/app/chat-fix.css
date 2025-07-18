@@ -1,0 +1,111 @@
+/* Explicit z-index rules to fix chat display issues */
+.chat-component {
+  position: relative;
+  z-index: 100 !important;
+}
+
+.chat-message {
+  position: relative;
+  z-index: 200 !important;
+}
+
+.message-content {
+  position: relative;
+  z-index: 300 !important;
+}
+
+/* Force text to be visible */
+.message-bubble {
+  color: black !important;
+  background-color: white !important;
+  border: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 500 !important;
+}
+
+.dark .message-bubble {
+  color: white !important;
+  background-color: #1e293b !important;
+  border: 1px solid #475569 !important;
+}
+
+/* AI message specific styles */
+.ai-message .message-content {
+  background-color: white !important;
+  color: black !important;
+}
+
+.dark .ai-message .message-content {
+  background-color: #1e293b !important;
+  color: white !important;
+}
+
+/* User message specific styles */
+.user-message .message-content {
+  background-color: #3b82f6 !important;
+  color: white !important;
+}
+
+/* Fix display issues */
+.chat-container * {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Force message bubbles to display properly */
+.message-bubble {
+  display: block !important;
+}
+
+/* Header dropdown fixes */
+.dropdown-menu,
+.user-dropdown,
+.dropdown-portal > div {
+  position: absolute !important;
+  z-index: 9999 !important;
+  background-color: var(--background) !important;
+  visibility: visible !important;
+  display: block !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  animation: fadeInDropdown 0.2s ease-out !important;
+}
+
+@keyframes fadeInDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Make sure all menu items are visible */
+header button, 
+header div, 
+header button * {
+  position: relative;
+  z-index: 500;
+}
+
+/* Ensure dropdowns appear on top of everything */
+.dropdown-portal {
+  position: fixed !important;
+  z-index: 9999 !important;
+}
+
+/* Fix dropdown portal positioning */
+body > .dropdown-portal {
+  position: fixed !important;
+  z-index: 9999 !important;
+  max-width: 100vw !important;
+}
+
+/* Fix for the dropdown portal so it stays on top */
+.dropdown-portal > * {
+  position: relative !important;
+  z-index: 9999 !important;
+  max-width: 100% !important;
+  width: auto !important;
+}
