@@ -82,7 +82,8 @@ export function Sidebar({ isOpen, onClose, className }: SidebarProps) {
       {/* Mobile overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 lg:hidden"
+          style={{ zIndex: 40 }}
           onClick={onClose}
         />
       )}
@@ -90,11 +91,13 @@ export function Sidebar({ isOpen, onClose, className }: SidebarProps) {
       {/* Sidebar container */}
       <div
         className={cn(
-          "fixed top-0 left-0 h-full w-64 bg-background border-r border-border flex flex-col transition-transform duration-300 ease-in-out z-50",
-          "lg:translate-x-0",
+          "fixed top-0 left-0 h-full w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col transition-transform duration-300 ease-in-out",
+          "lg:relative lg:z-auto", // On large screens, use normal position in layout flow
           isOpen ? "translate-x-0" : "-translate-x-full",
+          "lg:translate-x-0",
           className
         )}
+        style={{ zIndex: 41 }}
       >
         {/* Sidebar Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
