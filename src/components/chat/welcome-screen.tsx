@@ -46,7 +46,7 @@ export function WelcomeScreen({ onSendMessage }: WelcomeScreenProps) {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center p-8">
+    <div className="flex-1 flex items-center justify-center p-8 bg-white dark:bg-slate-900">
       <div className="max-w-2xl w-full text-center">
         {/* Welcome message */}
         <div className="mb-8">
@@ -55,8 +55,8 @@ export function WelcomeScreen({ onSendMessage }: WelcomeScreenProps) {
               <SamvadIcon className="text-white" size="lg" />
             </div>
           </div>
-          <h1 className="text-2xl font-semibold mb-2">{getGreeting()}</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl font-semibold mb-2 text-slate-900 dark:text-white">{getGreeting()}</h1>
+          <p className="text-slate-600 dark:text-slate-400">
             I'm here to help with writing, learning, brainstorming, and more.
           </p>
         </div>
@@ -67,15 +67,15 @@ export function WelcomeScreen({ onSendMessage }: WelcomeScreenProps) {
             <button
               key={index}
               onClick={() => handleSuggestionClick(suggestion)}
-              className="group p-4 text-left rounded-xl border border-border hover:border-primary/50 transition-all hover:shadow-sm bg-card"
+              className="group p-4 text-left rounded-xl border border-slate-200 dark:border-slate-800 hover:border-green-500/50 transition-all hover:shadow-sm bg-white dark:bg-slate-800"
             >
               <div className="flex items-start gap-3">
-                <suggestion.icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <suggestion.icon className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <div className="font-medium group-hover:text-primary transition-colors">
+                  <div className="font-medium group-hover:text-green-500 transition-colors text-slate-900 dark:text-white">
                     {suggestion.title}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-1">
+                  <div className="text-sm text-slate-600 dark:text-slate-400 mt-1">
                     {suggestion.description}
                   </div>
                 </div>
@@ -85,7 +85,7 @@ export function WelcomeScreen({ onSendMessage }: WelcomeScreenProps) {
         </div>
 
         {/* Additional info */}
-        <div className="text-xs text-muted-foreground">
+        <div className="text-xs text-slate-500 dark:text-slate-500">
           SamvadGPT can make mistakes. Check important info.
         </div>
       </div>
