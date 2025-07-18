@@ -97,7 +97,10 @@ export function MessageInput({ onSendMessage, disabled, className }: MessageInpu
   }, [message]);
 
   return (
-    <div className={cn("border-t bg-background", className)}>
+    <div 
+      className={cn("border-t bg-white dark:bg-slate-900", className)}
+      style={{ position: 'relative', zIndex: 200 }}
+    >
       <div className="max-w-4xl mx-auto p-4">
         {/* Attached files preview */}
         {attachedFiles.length > 0 && (
