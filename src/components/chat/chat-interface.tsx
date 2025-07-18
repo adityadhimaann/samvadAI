@@ -194,30 +194,55 @@ This helps prevent overloading the system.`;
   };
 
   return (
-    <div className={cn("flex h-full flex-col relative min-w-0", className)}>
-      {/* Error display */}
-      {error && (
-        <Alert variant="destructive" className="mx-4 mt-4">
-          <AlertCircle className="h-4 w-4" />
-          <span className="ml-2">{error}</span>
-        </Alert>
-      )}
+    <div 
+      className={cn("flex h-full flex-col bg-white dark:bg-slate-900", className)}
+      style={{ position: 'relative', zIndex: 50 }}
+    >
+      {/* Background layer */}
+      <div 
+        className="absolute inset-0 bg-white dark:bg-slate-900"
+        style={{ zIndex: 1 }}
+      ></div>
 
-      {/* Chat content */}
-      <div className="flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden">
-        {hasMessages ? (
-          <MessageList className="flex-1 min-h-0" />
-        ) : (
-          <WelcomeScreen onSendMessage={handleSendMessage} />
+      {/* Content layer */}
+      <div 
+        className="flex flex-col h-full"
+        style={{ position: 'relative', zIndex: 60 }}
+      >
+        {/* Error display */}
+        {error && (
+          <Alert 
+            variant="destructive" 
+            className="mx-4 mt-4"
+            style={{ position: 'relative', zIndex: 70 }}
+          >
+            <AlertCircle className="h-4 w-4" />
+            <span className="ml-2">{error}</span>
+          </Alert>
         )}
-      </div>
 
-      {/* Message input */}
-      <div className="flex-shrink-0 border-t bg-background">
-        <MessageInput
-          onSendMessage={handleSendMessage}
-          disabled={isLoading}
-        />
+        {/* Chat content */}
+        <div 
+          className="flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden"
+          style={{ position: 'relative', zIndex: 80 }}
+        >
+          {hasMessages ? (
+            <MessageList className="flex-1 min-h-0" />
+          ) : (
+            <WelcomeScreen onSendMessage={handleSendMessage} />
+          )}
+        </div>
+
+        {/* Message input */}
+        <div 
+          className="flex-shrink-0 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
+          style={{ position: 'relative', zIndex: 90 }}
+        >
+          <MessageInput
+            onSendMessage={handleSendMessage}
+            disabled={isLoading}
+          />
+        </div>
       </div>
     </div>
   );
