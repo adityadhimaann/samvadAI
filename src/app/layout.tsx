@@ -1,5 +1,6 @@
 
 import "./globals.css";
+import "./chat-fix.css";
 import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 
