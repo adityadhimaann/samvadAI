@@ -42,10 +42,21 @@ export function MessageList({ className }: MessageListProps) {
       className={cn('flex-1 overflow-y-auto h-full', className)}
       style={{ 
         maxHeight: 'calc(100vh - 200px)', // Ensure proper height calculation
-        minHeight: '200px'
+        minHeight: '200px',
+        position: 'relative',
+        zIndex: 100 // Very high z-index to ensure visibility
       }}
     >
-      <div className="flex flex-col gap-2 p-4 pb-8">
+      {/* Add a backdrop that ensures content is visible */}
+      <div 
+        className="absolute inset-0 bg-white dark:bg-slate-900"
+        style={{ zIndex: 1 }}
+      ></div>
+
+      <div 
+        className="flex flex-col gap-2 p-4 pb-8"
+        style={{ position: 'relative', zIndex: 50 }}
+      >
         {messages.map((message, index) => (
           <div
             key={`${message.id}-${index}`} // More stable key
@@ -53,6 +64,7 @@ export function MessageList({ className }: MessageListProps) {
               'w-full', // Ensure full width to prevent zigzag
               { 'opacity-60': message.status === 'sending' }
             )}
+            style={{ position: 'relative', zIndex: 100 - index }} // Dynamic z-index to stack properly
           >
             <MessageBubble message={message} />
           </div>
