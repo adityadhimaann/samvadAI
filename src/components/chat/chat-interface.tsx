@@ -2,6 +2,7 @@ import React from 'react';
 import { MessageList } from './message-list';
 import { MessageInput } from './message-input';
 import { useChatStore } from '@/store/chat';
+import { useSettingsStore } from '@/store/settings';
 import { generateId } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { Alert } from '@/components/ui/alert';
@@ -22,8 +23,8 @@ export function ChatInterface({ className }: ChatInterfaceProps) {
     error,
     getCurrentConversation,
     createConversation,
-    config 
   } = useChatStore();
+  const { personality } = useSettingsStore();
 
   const currentConversation = getCurrentConversation();
   const hasMessages = currentConversation?.messages && currentConversation.messages.length > 0;
@@ -59,7 +60,7 @@ export function ChatInterface({ className }: ChatInterfaceProps) {
         body: JSON.stringify({
           message: content,
           conversationHistory: conversationHistory.slice(-10),
-          personality: config.personality.mode,
+          personality: personality,
         }),
       });
 

@@ -8,10 +8,11 @@ import { SamvadIcon } from '@/components/ui/samvad-icon';
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  onShowHelp: () => void;
   className?: string;
 }
 
-export function Sidebar({ isOpen, onClose, className }: SidebarProps) {
+export function Sidebar({ isOpen, onClose, onShowHelp, className }: SidebarProps) {
   const { 
     conversations, 
     currentConversationId, 
@@ -54,9 +55,7 @@ export function Sidebar({ isOpen, onClose, className }: SidebarProps) {
   };
 
   const handleHelp = () => {
-    setShowHelp(!showHelp);
-    // You can implement a help modal here
-    alert('Help & FAQ functionality - implement as needed');
+    onShowHelp();
   };
 
   // Removed unused handleLibrary function

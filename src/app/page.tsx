@@ -5,12 +5,16 @@ import { ChatInterface } from '@/components/chat/chat-interface';
 import { Header } from '@/components/layout/header';
 import { Sidebar } from '@/components/layout/sidebar';
 import { AuthModal } from '@/components/auth/auth-modal';
+import { SettingsModal } from '@/components/settings/settings-modal';
+import { HelpModal } from '@/components/help/help-modal';
 import { useChatStore } from '@/store/chat';
 import { useAuthStore } from '@/store/auth';
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showHelpModal, setShowHelpModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [mounted, setMounted] = useState(false);
   const { hasHydrated, setHasHydrated } = useChatStore();
@@ -37,6 +41,7 @@ export default function Home() {
         <Sidebar
           isOpen={true}
           onClose={() => {}}
+          onShowHelp={() => setShowHelpModal(true)}
           className="border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
         />
       </div>
@@ -46,6 +51,7 @@ export default function Home() {
         <Sidebar
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
+          onShowHelp={() => setShowHelpModal(true)}
           className="border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
         />
       </div>
@@ -59,6 +65,7 @@ export default function Home() {
           <Header 
             onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
             onShowAuth={() => setShowAuthModal(true)}
+            onShowSettings={() => setShowSettingsModal(true)}
             className="flex-shrink-0"
           />
         </div>
@@ -80,6 +87,18 @@ export default function Home() {
         onClose={() => setShowAuthModal(false)}
         mode={authMode}
         onModeChange={setAuthMode}
+      />
+
+      {/* Settings Modal */}
+      <SettingsModal
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
+      />
+
+      {/* Help Modal */}
+      <HelpModal
+        isOpen={showHelpModal}
+        onClose={() => setShowHelpModal(false)}
       />
     </div>
   );
