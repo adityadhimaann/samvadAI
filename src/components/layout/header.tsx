@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { FiMenu, FiEdit, FiUser, FiMoon, FiSun } from 'react-icons/fi';
+import { FiMenu, FiEdit, FiUser, FiMoon, FiSun, FiSettings } from 'react-icons/fi';
 import { HiSparkles } from 'react-icons/hi2';
 import { useChatStore } from '@/store/chat';
 import { DropdownPortal } from '@/components/ui/dropdown-portal';
@@ -8,10 +8,11 @@ import { DropdownPortal } from '@/components/ui/dropdown-portal';
 interface HeaderProps {
   onToggleSidebar: () => void;
   onShowAuth?: () => void;
+  onShowSettings?: () => void;
   className?: string;
 }
 
-export function Header({ onToggleSidebar, onShowAuth, className }: HeaderProps) {
+export function Header({ onToggleSidebar, onShowAuth, onShowSettings, className }: HeaderProps) {
   const { theme, setTheme, createConversation, setCurrentConversation } = useChatStore();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const logoMenuRef = useRef<HTMLButtonElement>(null);
@@ -99,6 +100,15 @@ export function Header({ onToggleSidebar, onShowAuth, className }: HeaderProps) 
           ) : (
             <FiMoon className="h-5 w-5" />
           )}
+        </button>
+
+        {/* Settings button */}
+        <button
+          onClick={onShowSettings}
+          className="p-2 hover:bg-secondary rounded-lg transition-colors"
+          title="Settings"
+        >
+          <FiSettings className="h-5 w-5" />
         </button>
 
         {/* New chat button */}

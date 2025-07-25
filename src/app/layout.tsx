@@ -1,18 +1,17 @@
-
 import "./globals.css";
 import "./chat-fix.css";
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono } from "next/font/google";
+import { Poppins, Fira_Code } from "next/font/google";
 
-// Font replacements for Geist
-const inter = Inter({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
-const robotoMono = Roboto_Mono({
-  variable: "--font-geist-mono",
+const firaCode = Fira_Code({
+  variable: "--font-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -32,7 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body
-        className={`${inter.variable} ${robotoMono.variable} antialiased`}
+        className={`${poppins.variable} ${firaCode.variable} font-sans antialiased`}
       >
         {children}
       </body>
