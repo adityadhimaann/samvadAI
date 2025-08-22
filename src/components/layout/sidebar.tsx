@@ -4,6 +4,8 @@ import { useChatStore } from '@/store/chat';
 import { FiEdit3, FiSearch, FiSettings, FiHelpCircle, FiTrash2 } from 'react-icons/fi';
 // Removed unused BiLibrary import
 import { SamvadIcon } from '@/components/ui/samvad-icon';
+import { SettingsModal } from '@/components/modals/settings-modal';
+import { HelpModal } from '@/components/modals/help-modal';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -49,14 +51,10 @@ export function Sidebar({ isOpen, onClose, className }: SidebarProps) {
 
   const handleSettings = () => {
     setShowSettings(!showSettings);
-    // You can implement a settings modal here
-    alert('Settings functionality - implement as needed');
   };
 
   const handleHelp = () => {
     setShowHelp(!showHelp);
-    // You can implement a help modal here
-    alert('Help & FAQ functionality - implement as needed');
   };
 
   // Removed unused handleLibrary function
@@ -182,6 +180,16 @@ export function Sidebar({ isOpen, onClose, className }: SidebarProps) {
           </button>
         </div>
       </div>
+
+      {/* Modals */}
+      <SettingsModal 
+        isOpen={showSettings} 
+        onClose={() => setShowSettings(false)} 
+      />
+      <HelpModal 
+        isOpen={showHelp} 
+        onClose={() => setShowHelp(false)} 
+      />
     </>
   );
 }

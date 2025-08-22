@@ -2,20 +2,9 @@
 import "./globals.css";
 import "./chat-fix.css";
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono } from "next/font/google";
 
-// Font replacements for Geist
-const inter = Inter({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const robotoMono = Roboto_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
+// Use system fonts as fallback to avoid Google Fonts loading issues
+const fontVariables = "--font-geist-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; --font-geist-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;";
 
 export const metadata: Metadata = {
   title: "SamvadGPT - AI Assistant",
@@ -32,8 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body
-        className={`${inter.variable} ${robotoMono.variable} antialiased`}
+        className="antialiased"
+        style={{ fontFamily: fontVariables.includes('--font-geist-sans') ? 'var(--font-geist-sans)' : 'ui-sans-serif, system-ui, sans-serif' }}
       >
+        <style dangerouslySetInnerHTML={{ __html: `:root { ${fontVariables} }` }} />
         {children}
       </body>
     </html>
