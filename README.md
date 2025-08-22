@@ -100,11 +100,7 @@ A production-ready, full-stack AI assistant web application built with Next.js 1
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy automatically on push
+The application is deployed on Netlify. For deployment instructions, please refer to the Netlify documentation.
 
 ## 📝 License
 
