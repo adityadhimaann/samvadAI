@@ -1,19 +1,41 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChatInterface } from '@/components/chat/chat-interface';
 import { Header } from '@/components/layout/header';
 import { Sidebar } from '@/components/layout/sidebar';
 import { AuthModal } from '@/components/auth/auth-modal';
+import { ChatInterfaceSkeleton, ConversationSkeleton } from '@/components/ui/skeleton';
 import { useChatStore } from '@/store/chat';
 import { useAuthStore } from '@/store/auth';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [mounted, setMounted] = useState(false);
-  const { hasHydrated, setHasHydrated } = useChatStore();
+  const { hasHydrated, setHasHydrated, createConversation, setCurrentConversation } = useChatStore();
+  const messageInputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Set up keyboard shortcuts
+  useKeyboardShortcuts({
+    onNewConversation: () => {
+      const newId = createConversation('New Chat');
+      setCurrentConversation(newId);
+      setSidebarOpen(false); // Close sidebar on mobile after creating new chat
+    },
+    onFocusInput: () => {
+      // Focus the message input
+      const messageInput = document.querySelector('textarea[placeholder*="message"]') as HTMLTextAreaElement;
+      if (messageInput) {
+        messageInput.focus();
+      }
+    },
+    onToggleSidebar: () => {
+      setSidebarOpen(!sidebarOpen);
+    },
+  });
 
   // Ensure component is mounted on client side
   useEffect(() => {
@@ -24,8 +46,19 @@ export default function Home() {
   // Prevent hydration mismatch by not rendering until mounted and hydrated
   if (!mounted || !hasHydrated) {
     return (
-      <div className="flex h-screen items-center justify-center bg-white">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+      <div className="flex flex-row h-screen w-full bg-white dark:bg-slate-900 overflow-hidden">
+        {/* Sidebar skeleton */}
+        <div className="hidden lg:block lg:w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800">
+          <div className="p-4 border-b border-slate-200 dark:border-slate-800">
+            <div className="animate-pulse bg-slate-200 dark:bg-slate-800 h-6 w-32 rounded"></div>
+          </div>
+          <ConversationSkeleton />
+        </div>
+        
+        {/* Main content skeleton */}
+        <div className="flex-1 flex flex-col">
+          <ChatInterfaceSkeleton />
+        </div>
       </div>
     );
   }

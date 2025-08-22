@@ -64,4 +64,8 @@ export const chatDefaults = {
   enableVoice: false,
   personality: defaultPersonality,
   voiceSettings: defaultVoiceSettings,
+  // New default settings
+  animationSpeed: 'normal' as const,
+  voiceLanguage: 'en-US',
+  autoSubmitVoice: false,
 };

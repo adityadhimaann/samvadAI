@@ -45,4 +45,8 @@ export interface ChatConfig {
   enableVoice: boolean;
   personality: AIPersonality;
   voiceSettings: VoiceSettings;
+  // New settings for enhanced functionality
+  animationSpeed: 'slow' | 'normal' | 'fast';
+  voiceLanguage: string;
+  autoSubmitVoice: boolean;
 }
